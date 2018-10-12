@@ -1,3 +1,15 @@
+#!/usr/bin/env python2
+#
+# Author: Andy Marks
+# Date: 07/19/15
+# Modified by: Gilles Biagomba
+# Date: 10/12/18
+#
+# Function:  Reformat nmap output as one row per combination of
+# IP address / Protocol Type (TDP/UDP) / Port Status / Port Number.
+# Importing this format into a spreadsheet, pivot tables can 
+# be used to quickly create a wide variety of report formats.
+#
 import os.path
 import argparse
 import subprocess
@@ -7,16 +19,7 @@ import time
 import errno
 import array
 import re
-#
-# Author: Andy Marks
-#
-# Date: 07/19/15
-#
-# Function:  Reformat nmap output as one row per combination of
-# IP address / Protocol Type (TDP/UDP) / Port Status / Port Number.
-# Importing this format into a spreadsheet, pivot tables can 
-# be used to quickly create a wide variety of report formats.
-#
+
 def is_valid_file(parser, arg):
     if not os.path.exists(arg):
         parser.error("The file %s does not exist!" % arg)
@@ -112,7 +115,7 @@ while running_scans > 0 or len(ip_array) > 0:
             ip_address = ip_array[0]
             filename='nmap'+(ip_address)[0]+'.txt'
           # p = subprocess.Popen(["nmap", "-T2", "-P0", "-sS", "-sU", "-oG",filename, (ip_address)[0]],
-            p = subprocess.Popen(["nmap", "-A", "-Pn", "-R", "--resolve-all", "-sS", "-sU", "-sV", "-T4", "--script=ssl-enum-ciphers", "oA",filename, (ip_address)[0]],
+            p = subprocess.Popen(["nmap", "-A", "-Pn", "-R", "--resolve-all", "-sS", "-sU", "-sV", "-T4", "--script=ssl-enum-ciphers", "-oA",filename, (ip_address)[0]],
             stdout=subprocess.PIPE)
             process_array.append(p);
             del ip_array[0]
