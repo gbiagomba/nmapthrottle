@@ -55,9 +55,9 @@ def get_running_processes():
 #
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--inputfile", dest="filename", # required=True,
-                    help="Input file with IP addresses, one per line. Default name is target_addresses.txt",
+                    help="Input file with IP addresses, one per line. Default name is targets.txt",
                     metavar="FILE",
-                    type=lambda x: is_valid_file(parser, x), default='target_addresses.txt')
+                    type=lambda x: is_valid_file(parser, x), default='targets.txt')
 parser.add_argument("-s", "--sleep", help="Amount of time in seconds to sleep between status checks",
                     nargs='?', const=10, type=int, default=10)
 parser.add_argument("-c", "--concurrent", help="Maximum number of concurrent processes allowed",
@@ -82,7 +82,7 @@ if debugf == 'yes':
 # This allows for checking if it is still running. We count the number
 # of processes in the following variable.                                      
 #
-file = open('target_addresses.txt', 'r')
+file = open('targets.txt', 'r')
 
 ip_array = []
 for line in file:
@@ -112,7 +112,7 @@ while running_scans > 0 or len(ip_array) > 0:
             ip_address = ip_array[0]
             filename='nmap'+(ip_address)[0]+'.txt'
           # p = subprocess.Popen(["nmap", "-T2", "-P0", "-sS", "-sU", "-oG",filename, (ip_address)[0]],
-            p = subprocess.Popen(["nmap", "-T3", "-P0", "-sS", "-sU", "-oG",filename, (ip_address)[0]],
+            p = subprocess.Popen(["nmap", "-A", "-Pn", "-R", "--resolve-all", "-sS", "-sU", "-sV", "-T4", "--script=ssl-enum-ciphers", "oA",filename, (ip_address)[0]],
             stdout=subprocess.PIPE)
             process_array.append(p);
             del ip_array[0]
