@@ -2,6 +2,7 @@
 #
 # Author: Andy Marks
 # Date: 07/19/15
+#
 # Modified by: Gilles Biagomba
 # Date: 10/12/18
 #
@@ -115,7 +116,8 @@ while running_scans > 0 or len(ip_array) > 0:
             ip_address = ip_array[0]
             filename='nmap'+(ip_address)[0]+'.txt'
           # p = subprocess.Popen(["nmap", "-T2", "-P0", "-sS", "-sU", "-oG",filename, (ip_address)[0]],
-            p = subprocess.Popen(["nmap", "-A", "-Pn", "-R", "--resolve-all", "-sS", "-sU", "-sV", "-T4", "--script=ssl-enum-ciphers", "-oA",filename, (ip_address)[0]],
+          # nmap -A -Pn -R --reason --resolve-all -sS -sV -T4 -p 
+            p = subprocess.Popen(["nmap", "-A", "-R", "--reason", "--resolve-all", "-sS", "-sU", "-sV", "--top-ports 2000 ", "--script=ssl-enum-ciphers", "-oA",filename, (ip_address)[0]],
             stdout=subprocess.PIPE)
             process_array.append(p);
             del ip_array[0]
