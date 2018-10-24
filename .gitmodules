@@ -1,0 +1,3 @@
+[submodule "original/nmapthrottle"]
+  path = original/nmapthrottle
+  url = git://github.com/hhvn/nmapthrottle.git
